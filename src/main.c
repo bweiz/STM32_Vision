@@ -1,11 +1,11 @@
 // main.c
 
 #include <watchdog.h>
+#include "gpio.h"
 
 int main(void) {
-    volatile unsigned int x = 0;
+    watchdog_init(64000000u);
 
     while(1) {
-        x++;
     }
 }

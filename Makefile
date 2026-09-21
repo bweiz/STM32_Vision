@@ -14,7 +14,10 @@ CFLAGS := $(CPUFLAGS) \
           -Wextra \
           -ffreestanding \
           -ffunction-sections \
-          -fdata-sections
+          -fdata-sections \
+          -Iinclude \
+          -Ivendor/CMSIS_5/CMSIS/Core/Include \
+          -Ivendor/cmsis-device-h7/Include
 
 LDFLAGS := $(CPUFLAGS) \
            -T linker/stm32h723.ld \
@@ -25,7 +28,9 @@ LDFLAGS := $(CPUFLAGS) \
 
 SOURCES := \
     startup/startup.c \
-    src/main.c
+    src/main.c \
+	src/watchdog.c \
+	drivers/gpio.c
 
 OBJECTS := $(SOURCES:%.c=$(BUILD)/%.o)
 
