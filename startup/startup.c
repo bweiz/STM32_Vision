@@ -66,7 +66,7 @@ WEAK_DEFAULT_HANDLER(TIM1_UP_IRQHandler);       // IRQ 25
 WEAK_DEFAULT_HANDLER(TIM1_TRG_COM_IRQHandler);  // IRQ 26
 WEAK_DEFAULT_HANDLER(TIM1_CC_IRQHandler);       // IRQ 27
 WEAK_DEFAULT_HANDLER(TIM2_IRQHandler);          // IRQ 28
-
+WEAK_DEFAULT_HANDLER(TIM3_IRQHandler);          // IRQ 29
 
 /*
  * Vector table.
@@ -134,7 +134,8 @@ const uintptr_t vector_table[] = {
     (uintptr_t)TIM1_UP_IRQHandler,       // 16 + IRQ 25
     (uintptr_t)TIM1_TRG_COM_IRQHandler,  // 16 + IRQ 26
     (uintptr_t)TIM1_CC_IRQHandler,       // 16 + IRQ 27
-    (uintptr_t)TIM2_IRQHandler           // 16 + IRQ 28 = entry 44
+    (uintptr_t)TIM2_IRQHandler,          // 16 + IRQ 28 = entry 44
+    (uintptr_t)TIM3_IRQHandler           // 16 + IRQ 29
 };
 
 
