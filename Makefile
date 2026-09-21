@@ -30,6 +30,8 @@ SOURCES := \
     startup/startup.c \
     src/main.c \
 	src/watchdog.c \
+	src/event.c \
+	drivers/timer.c \
 	drivers/gpio.c
 
 OBJECTS := $(SOURCES:%.c=$(BUILD)/%.o)
