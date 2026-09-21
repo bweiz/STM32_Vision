@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void watchdog_init(uint32_t core_clock_hz);
+void watchdog_init(uint32_t tim2_clock_hz);
 void watchdog_kick(void);
 
 #endif

@@ -6,13 +6,53 @@ Discarded input sections
  .text          0x00000000        0x0 build/startup/startup.o
  .data          0x00000000        0x0 build/startup/startup.o
  .bss           0x00000000        0x0 build/startup/startup.o
- .text.Default_Handler
-                0x00000000        0x2 build/startup/startup.o
+ .group         0x00000000        0xc build/src/main.o
  .group         0x00000000        0xc build/src/main.o
  .text          0x00000000        0x0 build/src/main.o
  .data          0x00000000        0x0 build/src/main.o
  .bss           0x00000000        0x0 build/src/main.o
  .debug_macro   0x00000000      0xaba build/src/main.o
+ .debug_macro   0x00000000      0x34e build/src/main.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .group         0x00000000        0xc build/src/watchdog.o
+ .text          0x00000000        0x0 build/src/watchdog.o
+ .data          0x00000000        0x0 build/src/watchdog.o
+ .bss           0x00000000        0x0 build/src/watchdog.o
+ .text.watchdog_kick
+                0x00000000        0x2 build/src/watchdog.o
+ .debug_macro   0x00000000      0xaba build/src/watchdog.o
+ .debug_macro   0x00000000      0x34e build/src/watchdog.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .group         0x00000000        0xc build/drivers/gpio.o
+ .text          0x00000000        0x0 build/drivers/gpio.o
+ .data          0x00000000        0x0 build/drivers/gpio.o
+ .bss           0x00000000        0x0 build/drivers/gpio.o
+ .debug_macro   0x00000000      0xaba build/drivers/gpio.o
+ .debug_macro   0x00000000       0x3b build/drivers/gpio.o
+ .debug_macro   0x00000000      0x34e build/drivers/gpio.o
+ .debug_macro   0x00000000       0x1c build/drivers/gpio.o
+ .debug_macro   0x00000000       0x22 build/drivers/gpio.o
+ .debug_macro   0x00000000      0x107 build/drivers/gpio.o
+ .debug_macro   0x00000000     0x1359 build/drivers/gpio.o
+ .debug_macro   0x00000000      0x11f build/drivers/gpio.o
+ .debug_macro   0x00000000       0x22 build/drivers/gpio.o
+ .debug_macro   0x00000000    0x216c1 build/drivers/gpio.o
 
 Memory Configuration
 
@@ -25,50 +65,112 @@ Linker script and memory map
 
 LOAD build/startup/startup.o
 LOAD build/src/main.o
+LOAD build/src/watchdog.o
+LOAD build/drivers/gpio.o
                 0x20020000                        _estack = (ORIGIN (RAM) + LENGTH (RAM))
 
-.isr_vector     0x08000000        0x8
+.isr_vector     0x08000000       0xb4
  *(.isr_vector)
- .isr_vector    0x08000000        0x8 build/startup/startup.o
+ .isr_vector    0x08000000       0xb4 build/startup/startup.o
                 0x08000000                vector_table
 
-.text           0x08000008       0x4e
+.text           0x080000b4      0x15c
  *(.text*)
+ .text.Default_Handler
+                0x080000b4        0x2 build/startup/startup.o
+                0x080000b4                EXTI2_IRQHandler
+                0x080000b4                DebugMon_Handler
+                0x080000b4                TIM1_CC_IRQHandler
+                0x080000b4                HardFault_Handler
+                0x080000b4                DMA1_Stream5_IRQHandler
+                0x080000b4                SysTick_Handler
+                0x080000b4                TAMP_STAMP_IRQHandler
+                0x080000b4                PendSV_Handler
+                0x080000b4                NMI_Handler
+                0x080000b4                EXTI3_IRQHandler
+                0x080000b4                EXTI0_IRQHandler
+                0x080000b4                DMA1_Stream2_IRQHandler
+                0x080000b4                FDCAN1_IT1_IRQHandler
+                0x080000b4                UsageFault_Handler
+                0x080000b4                DMA1_Stream6_IRQHandler
+                0x080000b4                DMA1_Stream1_IRQHandler
+                0x080000b4                RCC_IRQHandler
+                0x080000b4                TIM1_TRG_COM_IRQHandler
+                0x080000b4                Default_Handler
+                0x080000b4                ADC_IRQHandler
+                0x080000b4                PVD_AVD_IRQHandler
+                0x080000b4                EXTI9_5_IRQHandler
+                0x080000b4                RTC_WKUP_IRQHandler
+                0x080000b4                MemManage_Handler
+                0x080000b4                DMA1_Stream0_IRQHandler
+                0x080000b4                SVC_Handler
+                0x080000b4                EXTI4_IRQHandler
+                0x080000b4                FDCAN2_IT1_IRQHandler
+                0x080000b4                TIM1_UP_IRQHandler
+                0x080000b4                WWDG_IRQHandler
+                0x080000b4                FDCAN2_IT0_IRQHandler
+                0x080000b4                FDCAN1_IT0_IRQHandler
+                0x080000b4                TIM1_BRK_IRQHandler
+                0x080000b4                EXTI1_IRQHandler
+                0x080000b4                FLASH_IRQHandler
+                0x080000b4                BusFault_Handler
+                0x080000b4                DMA1_Stream4_IRQHandler
+                0x080000b4                DMA1_Stream3_IRQHandler
+ *fill*         0x080000b6        0x2 
  .text.Reset_Handler
-                0x08000008       0x40 build/startup/startup.o
-                0x08000008                Reset_Handler
- .text.main     0x08000048        0xe build/src/main.o
-                0x08000048                main
+                0x080000b8       0x40 build/startup/startup.o
+                0x080000b8                Reset_Handler
+ .text.main     0x080000f8       0x10 build/src/main.o
+                0x080000f8                main
+ .text.watchdog_init
+                0x08000108       0x60 build/src/watchdog.o
+                0x08000108                watchdog_init
+ .text.TIM2_IRQHandler
+                0x08000168       0x22 build/src/watchdog.o
+                0x08000168                TIM2_IRQHandler
+ *fill*         0x0800018a        0x2 
+ .text.watchdog_led_init
+                0x0800018c       0x4c build/drivers/gpio.o
+                0x0800018c                watchdog_led_init
+ .text.watchdog_led_on
+                0x080001d8        0xc build/drivers/gpio.o
+                0x080001d8                watchdog_led_on
+ .text.watchdog_led_off
+                0x080001e4       0x10 build/drivers/gpio.o
+                0x080001e4                watchdog_led_off
+ .text.watchdog_led_toggle
+                0x080001f4       0x1c build/drivers/gpio.o
+                0x080001f4                watchdog_led_toggle
  *(.rodata*)
 
-.glue_7         0x08000058        0x0
- .glue_7        0x08000058        0x0 linker stubs
+.glue_7         0x08000210        0x0
+ .glue_7        0x08000210        0x0 linker stubs
 
-.glue_7t        0x08000058        0x0
- .glue_7t       0x08000058        0x0 linker stubs
+.glue_7t        0x08000210        0x0
+ .glue_7t       0x08000210        0x0 linker stubs
 
-.vfp11_veneer   0x08000058        0x0
- .vfp11_veneer  0x08000058        0x0 linker stubs
+.vfp11_veneer   0x08000210        0x0
+ .vfp11_veneer  0x08000210        0x0 linker stubs
 
-.v4_bx          0x08000058        0x0
- .v4_bx         0x08000058        0x0 linker stubs
+.v4_bx          0x08000210        0x0
+ .v4_bx         0x08000210        0x0 linker stubs
 
-.iplt           0x08000058        0x0
- .iplt          0x08000058        0x0 build/startup/startup.o
+.iplt           0x08000210        0x0
+ .iplt          0x08000210        0x0 build/startup/startup.o
 
-.rel.dyn        0x08000058        0x0
- .rel.iplt      0x08000058        0x0 build/startup/startup.o
+.rel.dyn        0x08000210        0x0
+ .rel.iplt      0x08000210        0x0 build/startup/startup.o
 
-.data           0x20000000        0x0 load address 0x08000056
+.data           0x20000000        0x0 load address 0x08000210
                 0x20000000                        _sdata = .
  *(.data*)
                 0x20000000                        _edata = .
-                0x08000056                        _sidata = LOADADDR (.data)
+                0x08000210                        _sidata = LOADADDR (.data)
 
-.igot.plt       0x20000000        0x0 load address 0x08000056
+.igot.plt       0x20000000        0x0 load address 0x08000210
  .igot.plt      0x20000000        0x0 build/startup/startup.o
 
-.bss            0x20000000        0x0 load address 0x08000056
+.bss            0x20000000        0x0 load address 0x08000210
                 0x20000000                        _sbss = .
  *(.bss*)
  *(COMMON)
@@ -76,51 +178,81 @@ LOAD build/src/main.o
 OUTPUT(build/vision_event.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000      0x1bd
+.debug_info     0x00000000     0x12a8
  .debug_info    0x00000000      0x157 build/startup/startup.o
- .debug_info    0x00000157       0x66 build/src/main.o
+ .debug_info    0x00000157       0xb9 build/src/main.o
+ .debug_info    0x00000210      0xb91 build/src/watchdog.o
+ .debug_info    0x00000da1      0x507 build/drivers/gpio.o
 
-.debug_abbrev   0x00000000      0x14f
+.debug_abbrev   0x00000000      0x421
  .debug_abbrev  0x00000000       0xee build/startup/startup.o
- .debug_abbrev  0x000000ee       0x61 build/src/main.o
+ .debug_abbrev  0x000000ee       0x84 build/src/main.o
+ .debug_abbrev  0x00000172      0x1b7 build/src/watchdog.o
+ .debug_abbrev  0x00000329       0xf8 build/drivers/gpio.o
 
 .debug_loclists
-                0x00000000       0x5d
+                0x00000000       0xa5
  .debug_loclists
                 0x00000000       0x5d build/startup/startup.o
+ .debug_loclists
+                0x0000005d       0x48 build/src/watchdog.o
 
-.debug_aranges  0x00000000       0x48
+.debug_aranges  0x00000000       0xb0
  .debug_aranges
                 0x00000000       0x28 build/startup/startup.o
  .debug_aranges
                 0x00000028       0x20 build/src/main.o
+ .debug_aranges
+                0x00000048       0x30 build/src/watchdog.o
+ .debug_aranges
+                0x00000078       0x38 build/drivers/gpio.o
 
 .debug_rnglists
-                0x00000000       0x2c
+                0x00000000       0x70
  .debug_rnglists
                 0x00000000       0x19 build/startup/startup.o
  .debug_rnglists
                 0x00000019       0x13 build/src/main.o
+ .debug_rnglists
+                0x0000002c       0x1f build/src/watchdog.o
+ .debug_rnglists
+                0x0000004b       0x25 build/drivers/gpio.o
 
-.debug_macro    0x00000000      0xe33
- .debug_macro   0x00000000       0x1a build/startup/startup.o
- .debug_macro   0x0000001a      0xaba build/startup/startup.o
- .debug_macro   0x00000ad4      0x34e build/startup/startup.o
- .debug_macro   0x00000e22       0x11 build/src/main.o
+.debug_macro    0x00000000    0x23c4f
+ .debug_macro   0x00000000       0x20 build/startup/startup.o
+ .debug_macro   0x00000020      0xaba build/startup/startup.o
+ .debug_macro   0x00000ada      0x34e build/startup/startup.o
+ .debug_macro   0x00000e28       0x2e build/src/main.o
+ .debug_macro   0x00000e56       0x94 build/src/watchdog.o
+ .debug_macro   0x00000eea       0x3b build/src/watchdog.o
+ .debug_macro   0x00000f25       0x1c build/src/watchdog.o
+ .debug_macro   0x00000f41       0x22 build/src/watchdog.o
+ .debug_macro   0x00000f63      0x107 build/src/watchdog.o
+ .debug_macro   0x0000106a     0x1359 build/src/watchdog.o
+ .debug_macro   0x000023c3      0x11f build/src/watchdog.o
+ .debug_macro   0x000024e2       0x22 build/src/watchdog.o
+ .debug_macro   0x00002504    0x216c1 build/src/watchdog.o
+ .debug_macro   0x00023bc5       0x8a build/drivers/gpio.o
 
-.debug_line     0x00000000      0x11a
- .debug_line    0x00000000       0xc4 build/startup/startup.o
- .debug_line    0x000000c4       0x56 build/src/main.o
+.debug_line     0x00000000      0x58c
+ .debug_line    0x00000000       0xc2 build/startup/startup.o
+ .debug_line    0x000000c2       0x98 build/src/main.o
+ .debug_line    0x0000015a      0x22e build/src/watchdog.o
+ .debug_line    0x00000388      0x204 build/drivers/gpio.o
 
-.debug_str      0x00000000     0x378d
- .debug_str     0x00000000     0x378d build/startup/startup.o
-                               0x38e5 (size before relaxing)
- .debug_str     0x0000378d     0x2de0 build/src/main.o
+.debug_str      0x00000000    0xcfba7
+ .debug_str     0x00000000    0xcfba7 build/startup/startup.o
+                               0x3940 (size before relaxing)
+ .debug_str     0x000cfba7     0x38a1 build/src/main.o
+ .debug_str     0x000cfba7    0xcfd34 build/src/watchdog.o
+ .debug_str     0x000cfba7    0xcf48f build/drivers/gpio.o
 
 .comment        0x00000000       0x26
  .comment       0x00000000       0x26 build/startup/startup.o
                                  0x27 (size before relaxing)
  .comment       0x00000026       0x27 build/src/main.o
+ .comment       0x00000026       0x27 build/src/watchdog.o
+ .comment       0x00000026       0x27 build/drivers/gpio.o
 
 .ARM.attributes
                 0x00000000       0x2e
@@ -128,7 +260,13 @@ LOAD linker stubs
                 0x00000000       0x2e build/startup/startup.o
  .ARM.attributes
                 0x0000002e       0x2e build/src/main.o
+ .ARM.attributes
+                0x0000005c       0x2e build/src/watchdog.o
+ .ARM.attributes
+                0x0000008a       0x2e build/drivers/gpio.o
 
-.debug_frame    0x00000000       0x5c
+.debug_frame    0x00000000      0x108
  .debug_frame   0x00000000       0x38 build/startup/startup.o
- .debug_frame   0x00000038       0x24 build/src/main.o
+ .debug_frame   0x00000038       0x28 build/src/main.o
+ .debug_frame   0x00000060       0x50 build/src/watchdog.o
+ .debug_frame   0x000000b0       0x58 build/drivers/gpio.o
