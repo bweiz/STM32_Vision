@@ -7,9 +7,11 @@
 
 int main(void) {
     watchdog_init(64000000u);
-    event_init();    
-    event_trigger();
-    
-    while(1) {
+    event_init();       
+
+    while(1)
+    {
+        event_trigger();
+        for(int i = 0; i < 1000000u; i++){};
     }
 }

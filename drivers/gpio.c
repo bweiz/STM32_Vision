@@ -98,7 +98,7 @@ void event_gpio_init(void)
 
 void event_gpio_high(void)
 {
-    GPIOC->BSRR = (1u << 1);
+    GPIOC->BSRR = (1u << 3);
 }
 
 void event_gpio_low(void)
