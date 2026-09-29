@@ -5,9 +5,9 @@ module event_capture(
     input wire [63:0]   counter,
     output reg [63:0]   timestamp,
     output reg          timestamp_valid
-    )
+);
 
-    reg                 event_prev
+    reg                 event_prev;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

@@ -1,1 +1,10 @@
 build/
+
+# STM32 build products
+stm32/build/
+
+# Quartus generated files
+fpga/de10_nano/db/
+fpga/de10_nano/incremental_db/
+fpga/de10_nano/output_files/
+fpga/de10_nano/*.qws
