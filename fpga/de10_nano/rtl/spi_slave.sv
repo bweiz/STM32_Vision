@@ -1,17 +1,19 @@
 module spi_slave (
-    input wire          clk,
-    input wire          rst_n,
+    input wire              clk,
+    input wire              rst_n,
 
-    input wire          spi_sclk,
-    input wire          spi_cs_n,
-    input wire          spi_mosi,
-    output wire          spi_miso,
+    input wire              spi_sclk,
+    input wire              spi_cs_n,
+    input wire              spi_mosi,
 
-    output reg          [7:0] rx_byte,
-    output reg          rx_valid,
+    output wire             spi_miso,
+    output wire             spi_active,
 
-    input wire         [7:0] tx_byte,
-    input wire         tx_load
+    output reg [7:0]        rx_byte,
+    output reg              rx_valid,
+
+    input wire [7:0]        tx_byte,
+    input wire              tx_load
     );
 
 
@@ -63,6 +65,7 @@ module spi_slave (
     wire sclk_fall;
 
     assign cs_active = ~cs_sync;
+    assign spi_active = cs_active;
 
     // rising edge if cs is low, sclk high, and previous sclk was low
     assign sclk_rise =
@@ -123,7 +126,10 @@ module spi_slave (
 
     reg [7:0] tx_shift;
 
-    assign spi_miso = tx_shift[7];
+    assign spi_miso = 
+        cs_active
+        ? tx_shift[7]
+        : 1'b0;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
