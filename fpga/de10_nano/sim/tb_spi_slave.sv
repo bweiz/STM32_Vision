@@ -22,6 +22,7 @@ module tb_spi_slave;
     reg  [7:0] tx_byte;
     reg        tx_load;
 
+    reg  [7:0] miso_received;
 
     // ------------------------------------------------
     // Testbench tracking
@@ -219,7 +220,52 @@ module tb_spi_slave;
         end
     endtask
 
+    // ============================================================
+    // SPI Transfer Byte 
+    // ============================================================
 
+    task automatic spi_transfer_byte (
+        input  [7:0] tx_data,
+        output [7:0] rx_data
+    );
+
+        integer bit_index;
+
+        begin
+            rx_data = 8'h00;
+
+            for (
+                bit_index = 7;
+                bit_index >= 0;
+                bit_index = bit_index - 1
+            ) begin
+
+                // Master places MOSI bit while SCLK is low
+                spi_mosi = tx_data[bit_index];
+
+                #(SPI_HALF_PERIOD);
+
+                // Rising edge:
+                // FPGA samples MOSI
+                // Master samples MISO
+                spi_sclk = 1'b1;
+
+                #50;
+
+                rx_data[bit_index] = spi_miso;
+
+                #(SPI_HALF_PERIOD - 50);
+
+                // Falling edge:
+                // FPGA advances to next MISO bit
+                spi_sclk = 1'b0;
+
+            end
+
+            spi_mosi = 1'b0;
+        end
+
+    endtask
     // ============================================================
     // Simulation timeout
     // ============================================================
@@ -502,6 +548,65 @@ module tb_spi_slave;
 
         $display(
             "PASS: partial byte discarded when CS deasserted"
+        );
+        // --------------------------------------------------------
+        // TEST 5
+        // FPGA transmit / MISO
+        //
+        // Load 0xA5 into the FPGA TX shift register
+        // and verify that the master receives 0xA5.
+        // --------------------------------------------------------
+
+        $display("");
+        $display("==============================");
+        $display("TEST 5: TRANSMIT 0xA5");
+        $display("==============================");
+
+
+        // Load FPGA transmit register while idle
+        tx_byte = 8'hA5;
+        tx_load = 1'b1;
+
+        @(posedge clk);
+        #1;
+
+        tx_load = 1'b0;
+
+
+        // Start SPI transaction
+        spi_select();
+
+
+        // MOSI value doesn't matter for this test.
+        // 0x00 is just a dummy byte that generates clocks.
+        spi_transfer_byte(
+            8'h00,
+            miso_received
+        );
+
+
+        spi_deselect();
+
+
+        $display(
+            "MISO received: 0x%02h",
+            miso_received
+        );
+
+
+        if (miso_received !== 8'hA5) begin
+
+            $fatal(
+                1,
+                "FAIL: expected MISO 0xA5, got 0x%02h",
+                miso_received
+            );
+
+        end
+
+
+        $display(
+            "PASS: FPGA transmitted 0xA5 correctly"
         );
 
         // --------------------------------------------------------

@@ -68,7 +68,7 @@ module spi_slave (
     assign sclk_rise =
         cs_active && sclk_sync && !sclk_prev; 
 
-    assign sclk_low =
+    assign sclk_fall =
         cs_active && !sclk_sync && sclk_prev;
 
 
@@ -113,6 +113,27 @@ module spi_slave (
                 end else begin
                     bit_count <= bit_count + 1;
                 end
+            end
+        end
+    end
+
+    // ---------------------------------------------------
+    // ------------------ TX State -----------------------
+    // ---------------------------------------------------
+
+    reg [7:0] tx_shift;
+
+    assign spi_miso = tx_shift[7];
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            tx_shift <= 8'h00;
+        end else begin
+
+            if (tx_load) begin
+                tx_shift <= tx_byte;          
+            end else if (sclk_fall && cs_active) begin
+                tx_shift <= {tx_shift[6:0], 1'b0};
             end
         end
     end
